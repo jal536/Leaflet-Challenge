@@ -30,16 +30,16 @@ function createFeatures(earthquakeData) {
 
 // Intensity to color
 function chooseColor(m) {
-  if (m < 1){
-    return "limegreen"
+  if (m <= 1){
+    return "lightcyan"
   }
-  if (m < 3){
+  if (m <= 3){
     return "greenyellow"
   }
-  if (m < 5){
+  if (m <= 5){
     return "yellow"
   }
-  if (m < 7){
+  if (m <= 7){
     return "orange"
   }
   return "red"
@@ -63,13 +63,15 @@ function createMap(earthquakes) {
   });
 
   // Define a legend
-  var legend = L.control({position : "topright"});
+  var legend = L.control({position : "bottomright"});
 
   legend.onAdd = function(map) {
 
-    var div = L.DomUtil.create("div", "info legend"),
-      magnitude = [1, 3, 5, 7, 9]
+    var div = L.DomUtil.create("div", "info legend");
+      magnitude = [0, 1, 3, 5, 7]
       labels = []
+
+      div.innerHTML += "<h4>Magnitude</h4>";
 
     for (var i = 0; i < magnitude.length; i++) {
       div.innerHTML +=
@@ -79,10 +81,6 @@ function createMap(earthquakes) {
 
     return div;
   };
-
-  legend.addTo(map); 
-}
-  
 
   // Define a baseMaps object to hold our base layers
   const baseMaps = {
@@ -101,6 +99,8 @@ function createMap(earthquakes) {
           zoom: 5,
           layers: [streetmap, earthquakes]
   });
+
+  legend.addTo(myMap); 
 
   // Create a layer control
   // Pass in our baseMaps and overlayMaps
